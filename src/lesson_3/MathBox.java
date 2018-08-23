@@ -7,7 +7,6 @@ import java.util.TreeSet;
 public class MathBox {
     TreeSet<Integer> treeSet = new TreeSet<>();
     TreeSet<Integer> treeSetDivided = new TreeSet<>();
-    MathBox(){}
 
     MathBox(Integer massive[]) {
         for (int i = 0; i <= massive.length - 1; i++) {

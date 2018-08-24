@@ -33,10 +33,13 @@ public class MathBox {
     }
 
     void remover (Integer integer) {
-        treeSet.remove(integer);
-        System.out.print("Объект " + integer.toString() + " удален!");
-        System.out.println(treeSet);
+        if (integer != null) {
+            treeSet.remove(integer);
+
+            System.out.print("Объект " + integer.toString() + " удален!");
+            System.out.println(treeSet);
         }
+    }
 
     @Override
     public boolean equals(Object o) {

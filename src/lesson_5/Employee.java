@@ -5,14 +5,14 @@ import java.util.Objects;
 
 public class Employee implements Serializable {
     protected String name;
-    private int age;
-    private int salary;
+    private String age;
+    private String salary;
     private String job;
 
     public Employee() {
     }
 
-    public Employee(String name, int age, int salary, String job) {
+    public Employee(String name, String age, String salary, String job) {
         this.name = name;
         this.age = age;
         this.salary = salary;
@@ -27,19 +27,19 @@ public class Employee implements Serializable {
         this.name = name;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
-    public int getSalary() {
+    public String getSalary() {
         return salary;
     }
 
-    public void setSalary(int salary) {
+    public void setSalary(String salary) {
         this.salary = salary;
     }
 
@@ -56,9 +56,9 @@ public class Employee implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return age == employee.age &&
-                salary == employee.salary &&
-                Objects.equals(name, employee.name) &&
+        return Objects.equals(name, employee.name) &&
+                Objects.equals(age, employee.age) &&
+                Objects.equals(salary, employee.salary) &&
                 Objects.equals(job, employee.job);
     }
 
@@ -71,10 +71,9 @@ public class Employee implements Serializable {
     public String toString() {
         return "Employee{" +
                 "name='" + name + '\'' +
-                ", age=" + age +
-                ", salary=" + salary +
+                ", age='" + age + '\'' +
+                ", salary='" + salary + '\'' +
                 ", job='" + job + '\'' +
                 '}';
     }
-
 }

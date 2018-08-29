@@ -2,6 +2,7 @@ package lesson_5;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class EmployeeTest {
     @Test
     public void whenAddNewEmployeeThenCreateNewFileOnDisk() {
         DataBase dataBase = new DataBase();
-        Employee employee = new Employee("Mark", 25, 60000, "tester");
+        Employee employee = new Employee("Mark", "25", "60000", "tester");
         boolean expected = dataBase.save(employee);
         assertThat(true, is(expected));
     }
@@ -20,7 +21,7 @@ public class EmployeeTest {
     @Test
     public void whenDeleteEmployeeThenEmployeeDeletedFromFile() {
         DataBase dataBase = new DataBase();
-        Employee employee = new Employee("Mark", 25, 60000, "tester");
+        Employee employee = new Employee("Mark", "25", "60000", "tester");
         dataBase.save(employee);
         boolean expected = dataBase.delete(employee);
         assertThat(true, is(expected));
@@ -29,7 +30,7 @@ public class EmployeeTest {
     @Test
     public void whenStartGetByNameMethodThenGetEmployee() {
         DataBase dataBase = new DataBase();
-        Employee employee = new Employee("Mark", 25, 60000, "tester");
+        Employee employee = new Employee("Mark", "25", "60000", "tester");
         dataBase.save(employee);
         Employee expected;
         expected = dataBase.getByName("Mark");
@@ -40,9 +41,9 @@ public class EmployeeTest {
     public void whenStartGetByJobMethodThenGetEmployee() {
         DataBase dataBase = new DataBase();
         List<Employee> expected = new LinkedList<>();
-        Employee mark = new Employee("Mark", 25, 60000, "tester");
-        Employee egor = new Employee("Egor", 27, 50000, "tester");
-        Employee petr = new Employee("Petr", 27, 50000, "programmer");
+        Employee mark = new Employee("Mark", "25", "60000", "tester");
+        Employee egor = new Employee("Egor", "27", "50000", "tester");
+        Employee petr = new Employee("Petr", "27", "50000", "programmer");
         dataBase.save(mark);
         dataBase.save(egor);
         dataBase.save(petr);
@@ -54,22 +55,22 @@ public class EmployeeTest {
     @Test
     public void whenStartSaveOrUpdateMethodThenEmployeeUpdateToFile() {
         DataBase dataBase = new DataBase();
-        Employee mark = new Employee("Mark", 25, 60000, "tester");
-        Employee egor = new Employee("Egor", 27, 50000, "tester");
-        Employee petr = new Employee("Petr", 27, 50000, "programmer");
+        Employee mark = new Employee("Mark", "25", "60000", "tester");
+        Employee egor = new Employee("Egor", "27", "50000", "tester");
+        Employee petr = new Employee("Petr", "27", "50000", "programmer");
         dataBase.save(mark);
         dataBase.save(egor);
         dataBase.save(petr);
-        Employee betterMark = new Employee("Mark", 25, 60000, "programmer");
+        Employee betterMark = new Employee("Mark", "25", "60000", "programmer");
         assertThat(dataBase.saveOrUpdate(betterMark), is(true));
     }
 
     @Test
     public void whenStartSaveOrUpdateMethodThenEmployeeSaveToFile() {
         DataBase dataBase = new DataBase();
-        Employee mark = new Employee("Mark", 25, 60000, "tester");
-        Employee egor = new Employee("Egor", 27, 50000, "tester");
-        Employee petr = new Employee("Petr", 27, 50000, "programmer");
+        Employee mark = new Employee("Mark", "25", "60000", "tester");
+        Employee egor = new Employee("Egor", "27", "50000", "tester");
+        Employee petr = new Employee("Petr", "27", "50000", "programmer");
         dataBase.save(mark);
         dataBase.save(egor);
         assertThat(dataBase.saveOrUpdate(petr), is(true));
@@ -78,12 +79,38 @@ public class EmployeeTest {
     @Test
     public void whenStartChangeAllWorkMethodThenAllWorkChanged() {
         DataBase dataBase = new DataBase();
-        Employee mark = new Employee("Mark", 25, 60000, "tester");
-        Employee egor = new Employee("Egor", 27, 50000, "tester");
-        Employee petr = new Employee("Petr", 27, 50000, "programmer");
+        Employee mark = new Employee("Mark", "25", "60000", "tester");
+        Employee egor = new Employee("Egor", "27", "50000", "tester");
+        Employee petr = new Employee("Petr", "27", "50000", "programmer");
         dataBase.save(mark);
         dataBase.save(egor);
         dataBase.save(petr);
         assertThat(dataBase.changeAllWork("programmer", "developer"), is(true));
+    }
+
+    @Test
+    public void whenSaveDataToFileThenFileCreated() {
+        SerializableClass serializableClass = new SerializableClass();
+        List<Employee> list = new ArrayList<>();
+        Employee mark = new Employee("Mark", "25", "60000", "tester");
+        Employee egor = new Employee("Egor", "27", "50000", "tester");
+        Employee petr = new Employee("Petr", "27", "50000", "programmer");
+        list.add(mark);
+        list.add(egor);
+        list.add(petr);
+        assertThat(serializableClass.DataToFile(list), is(true));
+    }
+
+    @Test
+    public void whenRestoreDataFromFileThenGetListEmployee() {
+        SerializableClass serializableClass = new SerializableClass();
+        List<Employee> list = new ArrayList<>();
+        Employee mark = new Employee("Mark", "25", "60000", "tester");
+        Employee egor = new Employee("Egor", "27", "50000", "tester");
+        Employee petr = new Employee("Petr", "27", "50000", "programmer");
+        list.add(mark);
+        list.add(egor);
+        list.add(petr);
+        assertThat(serializableClass.fileToData(), is(list));
     }
 }

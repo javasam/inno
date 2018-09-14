@@ -5,6 +5,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 //Input Sources[]
 public class ReaderFromURL {
@@ -25,8 +26,9 @@ public class ReaderFromURL {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String sentence;
             String[] sentences;
+            Pattern pattern = Pattern.compile("\\.\\.\\.|!|\\.|\\?|\n|\r");
             while ((sentence = reader.readLine()) != null) {
-                sentences = sentence.split("\\.\\.\\.|!|\\.|\\?|\n|\r");
+                sentences = pattern.split(sentence);
                 for (String word : words) {                                      // ищем среди предложений слово из массива words
                     for (String string : sentences) {
                         if (string.contains(word)) {                            // если находим слово в строке, то добавляем

@@ -23,7 +23,7 @@ public class Main {
     public static void main(String[] args) {
         String[] urls = getFIleNames();
 
-        String[] words = {"gendfgt", "didert", "erpepc", "drer", "nonert",};
+        String[] words = {"nuerty", "dzgyu", "edert", "bwdf"};
 
         CopyOnWriteArrayList<String> resultList = new CopyOnWriteArrayList<>();
         List<Future<?>> futures = new ArrayList<>();

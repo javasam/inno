@@ -20,18 +20,16 @@ public class ThreadPool implements Runnable {
         this.resultList = resultList;
     }
 
-    public CopyOnWriteArrayList<String> getResultList() {
-        return resultList;
-    }
-
     @Override
     public void run() {
         long time = System.currentTimeMillis();
         resultList.addAll(readerFromURL.readFromURLToArray(url, words));
-        System.out.println("Задача выполнена потоком: " + Thread.currentThread().getName());
-        System.out.println("Совпадений найдено: " + readerFromURL.count);
-        timeAllThreads += (System.currentTimeMillis() - time);
-        System.out.println("Затрачено времени: " + timeAllThreads);
+        if (readerFromURL.count > 0) {
+            System.out.println("Задача выполнена потоком: " + Thread.currentThread().getName());
+            System.out.println("Совпадений найдено: " + readerFromURL.count);
+            timeAllThreads += (System.currentTimeMillis() - time);
+            System.out.println("Затрачено времени: " + timeAllThreads + " миллисекунд");
+        }
     }
 
     public void writeCollectionToFile(Collection collection) {

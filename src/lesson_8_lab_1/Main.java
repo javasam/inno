@@ -32,6 +32,7 @@ public class Main {
         ExecutorService service =
                 Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() - 1); //create worker threads in Thread Pool
 
+        long time = System.currentTimeMillis();
         for (String url : urls) {
             futures.add(service.submit(new ThreadPool(url, words, resultList)));
         }
@@ -46,5 +47,6 @@ public class Main {
             }
         }
         threadPool.writeCollectionToFile(resultList);
+        System.out.println("Всего потрачено времени: " + (System.currentTimeMillis() - time));
     }
 }

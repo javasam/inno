@@ -9,7 +9,7 @@ public class ThreadPool implements Runnable {
     CopyOnWriteArrayList<String> resultList = new CopyOnWriteArrayList<>();
     private String url;
     private String[] words;
-    private long timeAllThreads = 0;
+    private static long timeAllThreads = 0;
 
     public ThreadPool() {
     }
@@ -27,8 +27,7 @@ public class ThreadPool implements Runnable {
         if (readerFromURL.count > 0) {
             System.out.println("Задача выполнена потоком: " + Thread.currentThread().getName());
             System.out.println("Совпадений найдено: " + readerFromURL.count);
-            timeAllThreads += (System.currentTimeMillis() - time);
-            System.out.println("Затрачено времени: " + timeAllThreads + " миллисекунд");
+            timeAllThreads += System.currentTimeMillis() - time;
         }
     }
 
@@ -49,6 +48,7 @@ public class ThreadPool implements Runnable {
             }
             bw.close();
             fileWr.close();
+            System.out.println("Затрачено времени всего: " + timeAllThreads);
             System.out.println("Write done!");
         } catch (IOException ex) {
             ex.printStackTrace();

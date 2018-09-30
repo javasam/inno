@@ -12,15 +12,18 @@ import java.util.logging.Logger;
 
 public class Main {
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+    private static final String PATH_TO_RESULT_FILE = "C:\\projects\\inno\\src\\lesson_16\\res.txt";
+    private static final String PATH_TO_TEST_FILES_FOLDER = "d:/temp/testset1/";
+
 
     public static String[] getFIleNames() {
-        File folder = new File("d:\\temp\\testset1");
+        File folder = new File(PATH_TO_TEST_FILES_FOLDER);
         File[] listOfFiles = folder.listFiles();
         List<String> results = new ArrayList<>();
 
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
-                results.add("d:/temp/testset1/" + listOfFiles[i].getName());
+                results.add(PATH_TO_TEST_FILES_FOLDER + listOfFiles[i].getName());
             }
         }
         return results.toArray(new String[0]);
@@ -28,11 +31,8 @@ public class Main {
 
     public static void main(String[] args) {
         String[] urls = getFIleNames();
-
-        String[] words = {"мама"};
-
+        String[] words = {"da", "ae", "did"};
         PriorityBlockingQueue<String> resultList = new PriorityBlockingQueue<>();
-
         List<Future<?>> futures = new ArrayList<>();
 
         ExecutorService service =
@@ -44,7 +44,7 @@ public class Main {
         }
         service.shutdown();
         Thread thread = new Thread(() -> {
-            String path = "C:\\projects\\inno\\src\\lesson_16\\res.txt";
+            String path = PATH_TO_RESULT_FILE;
             File file;
             try (FileWriter fileWr = new FileWriter(path);
                  BufferedWriter bw = new BufferedWriter(fileWr)) {
@@ -57,12 +57,20 @@ public class Main {
                     bw.write(take);
                     bw.write(System.lineSeparator());
                 }
-                LOGGER.log(Level.INFO, "Write done!");
             } catch (IOException | InterruptedException ex) {
-                ex.printStackTrace();
+                LOGGER.log(Level.INFO, ex.toString() + " in file writer");
             }
         });
         thread.start();
-        LOGGER.log(Level.INFO, "Всего потрачено миллисекунд: " + (System.currentTimeMillis() - time));
+        for (Future future : futures) {
+            try {
+                future.get();
+            } catch (InterruptedException | ExecutionException e) {
+                LOGGER.log(Level.INFO, e.toString() + " in futures");
+            }
+        }
+        LOGGER.log(Level.INFO, "Записано в файл: " + PATH_TO_RESULT_FILE);
+        LOGGER.log(Level.INFO, () -> "Всего потрачено миллисекунд: " + (System.currentTimeMillis() - time));
+        thread.interrupt();
     }
 }
